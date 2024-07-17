@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+
+<div class="main-content">
+    <div id="wrapper-site">
+        <div id="content-wrapper">
+            <div id="main">
+                <div class="page-home">
+
+                    <!-- breadcrumb -->
+                    <nav class="breadcrumb-bg">
+                        <div class="container no-index">
+                            <div class="breadcrumb">
+                                <ol>
+                                    <li>
+                                        <a href="#">
+                                            <span>Home</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>Living Room</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>Sofa</span>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="container">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-12 col-md-12">
+                                    <div class="main-product-detail">
+                                        <h2>{{produk.nama_produk}}</h2>
+                                        <div class="product-single row">
+                                            <div class="product-detail col-xs-12 col-md-5 col-sm-5">
+                                                <div class="page-content" id="content">
+                                                    <div class="images-container">
+                                                        <div class="js-qv-mask mask tab-content border">
+                                                            <div id="item1" class="tab-pane fade active in show">
+                                                                <img src="{{produk.gambar.url}}" alt="img">
+                                                            </div>
+                                                        </div>
+                                                        <ul class="product-tab nav nav-tabs d-flex">
+                                                            {% if produk.gambar_satu %}
+                                                            <li class="active col">
+                                                                <a href="#item1" data-toggle="tab" aria-expanded="true" class="active show">
+                                                                    <img src="{{produk.gambar_satu.url}}" alt="img">
+                                                                </a>
+                                                            </li>
+                                                            {% endif %}
+                                                            {% if produk.gambar_dua %}
+                                                            <li class="col">
+                                                                <a href="#item2" data-toggle="tab">
+                                                                    <img src="{{produk.gambar_dua.url}}" alt="img">
+                                                                </a>
+                                                            </li>
+                                                            {% endif %}
+                                                            {% if produk.gambar_tiga %}
+                                                            <li class="col">
+                                                                <a href="#item3" data-toggle="tab">
+                                                                    <img src="{{produk.gambar_tiga.url}}" alt="img">
+                                                                </a>
+                                                            </li>
+                                                            {% endif %}
+                                                            {% if produk.gambar_empat %}
+                                                            <li class="col">
+                                                                <a href="#item4" data-toggle="tab">
+                                                                    <img src="{{produk.gambar_empat.url}}" alt="img">
+                                                                </a>
+                                                            </li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-info col-xs-12 col-md-7 col-sm-7">
+                                                <div class="detail-description">
+                                                    <div class="price-del">
+                                                        {% if produk.diskon == 0 %}
+                                                        <span class="price">Rp. {{produk.harga|intcomma}}</span>
+                                                        {% else %}
+                                                        <span class="price">Rp. {{produk.setelah_diskon|intcomma}}</span>
+                                                        <del class="regular-price">Rp. {{produk.harga|intcomma}}</del>
+                                                        {% endif %}
+                                                    </div>
+                                                    <p class="description">{{produk.keterangan|safe}}</p>
+                                                    <div class="has-border cart-area">
+                                                        <div class="product-quantity">
+                                                            <div class="qty">
+                                                                <div class="input-group">
+                                                                        <form action="{% url "cart_add" produk.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                        <div class="quantity">
+                                                                            <span class="control-label">Jumlah : </span>
+                                                                            <input type="text" name="quantity" value="1" class="input-group form-control">
+
+                                                                            <span class="input-group-btn-vertical">
+                                                                                <button class="btn btn-touchspin js-touchspin bootstrap-touchspin-up" type="button">
+                                                                                    +
+                                                                                </button>
+                                                                                <button class="btn btn-touchspin js-touchspin bootstrap-touchspin-down" type="button">
+                                                                                    -
+                                                                                </button>
+                                                                            </span>
+                                                                        </div>
+                                                                        {{cart_product_form}}
+                                                                        <span class="add">
+                                                                            <button class="btn btn-primary" data-button-action="add-to-cart" type="submit">
+                                                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                                <span>Tambah ke Keranjang</span>
+                                                                            </button>
+                                                                        </span>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <p class="product-minimal-quantity">
+                                                        </p>
+                                                    </div>
+                                                    <div class="d-flex2 has-border">
+                                                        <div class="btn-group">
+                                                            <a href="https://wa.me/{{produk.no_whatsup}}">
+                                                                <i class="fa fa-whatsapp"></i>
+                                                                <span>WhatsApp</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-comment has-border d-flex">
+                                                        <div class="review-description d-flex">
+                                                            <span>Diskon :</span>
+                                                            <div class="rating">
+                                                                <div class="star-content">
+                                                                    <span class="text-info">{{produk.diskon}}%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <p>Nama :
+                                                            <span class="content2">
+                                                                <a href="#">{{produk.nama_produk}}</a>
+                                                            </span>
+                                                        </p>
+                                                        <p>Kategori :
+                                                            <span class="content2">
+                                                                <a href="#">{{produk.kategori.nama}}</a>
+                                                            </span>
+                                                        </p>
+                                                        <p>Status :
+                                                            <span class="content2">
+                                                                <a href="#">Produk {{produk.keterangan_barang}}</a>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="main-content">
+    <div id="wrapper-site">
+        <div id="content-wrapper">
+
+            <!-- breadcrumb -->
+            <nav class="breadcrumb-bg">
+                <div class="container no-index">
+                    <div class="breadcrumb">
+                        <ol>
+                            <li>
+                                <a href="#">
+                                    <span>Beranda</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>Hubungi Kami</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
+            <div id="main">
+                <div class="page-home">
+                    <div class="container">
+                        <h1 class="text-center title-page">Hubungi Kami</h1>
+                        <div class="row-inhert">
+                            <div class="header-contact">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="item d-flex">
+                                            <div class="item-left">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-email"></i>
+                                                </div>
+                                            </div>
+                                            <div class="item-right d-flex">
+                                                <div class="title">Email:</div>
+                                                <div class="contact-content">
+                                                    <a href="mailto:{{statis.email}}">{{statis.email}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="item d-flex">
+                                            <div class="item-left">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-home"></i>
+                                                </div>
+                                            </div>
+                                            <div class="item-right d-flex">
+                                                <div class="title">Alamat:</div>
+                                                <div class="contact-content">
+                                                    {{statis.alamat_kami}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="item d-flex justify-content-end  last">
+                                            <div class="item-left">
+                                                <div class="icon">
+                                                    <i class="zmdi zmdi-phone"></i>
+                                                </div>
+                                            </div>
+                                            <div class="item-right d-flex">
+                                                <div class="title">Telepon:</div>
+                                                <div class="contact-content">
+                                                    {{statis.telpon}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact-map">
+                                <div id="map">
+                                    <iframe src="{{statis.map}}" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            <div class="input-contact">
+                                <p class="text-intro text-center">“Jangan ragu untuk menghubungi kami melalui telepon, email, atau media sosial untuk mendapatkan informasi lebih lanjut tentang produk dan layanan kami. Kami juga menyambut Anda untuk mengunjungi showroom kami dan melihat langsung berbagai koleksi furniture yang kami tawarkan.”
+                                </p>
+                                
+                                <p class="icon text-center">
+                                    <a href="#">
+                                        <img src="{% static "img/other/contact_mess.png" %}" alt="img">
+                                    </a>
+                                </p>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <div class="contact-form">
+                                            <form action="{% url "kontak" %}" method="post" onsubmit="return alert('Selamat pesan anda telah berhasil terkirim!')">
+                                                {% csrf_token %}
+                                                <div class="form-fields">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" name="name" placeholder="Nama Lengkap" required>
+                                                        </div>
+                                                        <div class="col-md-6 margin-bottom-mobie">
+                                                            <input class="form-control" name="email" type="email" placeholder="Alamat Email" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-6 margin-bottom-mobie">
+                                                            <input class="form-control" name="subject" type="text" placeholder="Subjek" required>
+                                                        </div>
+                                                        <div class="col-md-6 margin-bottom-mobie">
+                                                            <input class="form-control" name="phone" type="number" placeholder="Telepon" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <textarea class="form-control" name="message" placeholder="Pesan" rows="8" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <button class="btn" type="submit">
+                                                        <img class="img-fl" src="{% static "img/other/contact_email.png" %}" alt="img">Kirim Pesan
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="main-content">
+    <div id="wrapper-site">
+        <div id="content-wrapper">
+            
+            <!-- breadcrumb -->
+            <nav class="breadcrumb-bg">
+                <div class="container no-index">
+                    <div class="breadcrumb">
+                        <ol>
+                            <li>
+                                <a href="#">
+                                    <span>Beranda</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span>Tentang Kami</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
+            <div id="main">
+                <div class="page-home">
+                    <div class="container">
+                        <div class="about-us-content">
+                            
+                            <h1 class="title-page">Tentang Kami</h1>
+                            {% for profile in profil %}
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 right">
+                                    <a href="#">
+                                        <img class="img-fluid" src="{{profile.gambar.url}}" alt="#" />
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 left">
+                                    <div class="cms-block f-right">
+                                        <h3 class="page-subheading">Selamat Datang</h3>
+                                        <p>{{profile.keterangan|safe}}</p>
+                                        <a>
+                                            <span>~ {{profile.nama}}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

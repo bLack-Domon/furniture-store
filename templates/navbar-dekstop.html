@@ -1,0 +1,30 @@
+<div class="main-menu col-sm-4 col-md-5 align-items-center justify-content-center navbar-expand-md">
+    <div class="menu navbar collapse navbar-collapse">
+        <ul class="menu-top navbar-nav">
+            <li class="">
+                <a href="{% url "beranda" %}" class="parent">Beranda</a>
+            </li>
+            <li class="">
+                <a href="{% url "profil" %}" class="parent">Profil</a>
+            </li>
+            <li class="">
+                <a href="#" class="parent">Produk</a>
+                <div class="dropdown-menu">
+                    <ul>
+                        {% for kt in kategori %}
+                        <li class="item">
+                            <a href="{% url "kategori" kt.slug %}">{{kt.nama}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            <li class="">
+                <a href="{% url "cart_detail" %}" class="parent">Pemesanan</a>
+            </li>
+            <li class="">
+                <a href="{% url "kontak" %}" class="parent">Hubungi Kami</a>
+            </li>
+        </ul>
+    </div>
+</div>

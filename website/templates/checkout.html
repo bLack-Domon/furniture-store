@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+
+<div id="checkout" class="main-content">
+    <div class="wrap-banner">
+        <!-- breadcrumb -->
+        <nav class="breadcrumb-bg">
+            <div class="container no-index">
+                <div class="breadcrumb">
+                    <ol>
+                        <li>
+                            <a href="#">
+                                <span>Beranda</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Checkout</span>
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- main -->
+        <div id="wrapper-site">
+            <div class="container">
+                <div class="row">
+                    <div id="content-wrapper" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 onecol">
+                        <div id="main">
+                            <div class="cart-grid row">
+                                <div class="col-md-8 check-info">
+                                    <div class="checkout-personal-step">
+                                        <h3 class="step-title h3 info">
+                                            <span class="step-number">#</span>INFORMASI PRIBADI
+                                        </h3>
+                                    </div>
+                                    <div class="content">
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active show" id="checkout-guest-form" role="tabpanel">
+                                                <form action="{% url "checkout" %}" id="customer-form" class="js-customer-form" method="post" onsubmit="return alert('Selamat pesanan anda telah berhasil terkirim!')">
+                                                    {% csrf_token %}
+                                                    <div>
+                                                        <input type="hidden" name="grantotal" value="{{keranjang.get_total_price}}">
+                                                        <div class="form-group row">
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="nama_depan" type="text" placeholder="Nama Depan" required>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="nama_belakang" type="text" placeholder="Nama Belakang" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="provinsi" type="text" placeholder="Provinsi" required>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="kabupaten" type="text" placeholder="Kabupaten" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="kecamatan" type="text" placeholder="Kecamatan" required>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="kode_pos" type="text" placeholder="Kode Pos" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-12">
+                                                                <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="email" type="email" placeholder="Alamat Email" required>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input class="form-control" name="telpon" type="number" placeholder="Telepon" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-12">
+                                                                <input type="submit" class="continue btn btn-primary pull-xs-right" value="Kirim Pesanan">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-grid-right col-xs-12 col-lg-4">
+                                    {% for item in keranjang %}
+                                    {% with product=item.product %}
+                                    <div class="cart-summary">
+                                        <div class="cart-detailed-totals">
+                                            <div class="cart-summary-products">
+                                                <div class="summary-label">{{product.nama_produk}}</div>
+                                            </div>
+                                            <div class="cart-summary-line" id="cart-subtotal-products">
+                                                <span class="label js-subtotal">
+                                                    Total products:
+                                                </span>
+                                                <span class="value">Rp. {{item.price|intcomma}}</span>
+                                            </div>
+                                            <div class="cart-summary-line" id="cart-subtotal-shipping">
+                                                <span class="label">
+                                                    Total Shipping:
+                                                </span>
+                                                <span class="value">{{item.quantity}} Buah</span>
+                                                <div>
+                                                    <small class="value"></small>
+                                                </div>
+                                            </div>
+                                            <div class="cart-summary-line cart-total">
+                                                <span class="label">Total:</span>
+                                                <span class="value">Rp. {{item.total_price|intcomma}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endwith %}
+                                    {% empty %}
+                                    <div class="cart-summary">
+                                        <div class="cart-detailed-totals">
+                                            Belum ada pemesanan
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div id="block-reassurance">
+                                        <ul>
+                                            <li>
+                                                <div class="block-reassurance-item">
+                                                    <img src="{% static "img/product/check3.png" %}" alt="Return policy (edit with Customer reassurance module)">
+                                                    <span><strong>Total Tagihan:  Rp. {{keranjang.get_total_price|intcomma}}</strong></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

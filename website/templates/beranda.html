@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <!-- main content -->
+    <div class="main-content">
+        <div class="wrap-banner">
+            <!-- menu category -->
+            <div class="container position">
+                <div class="section menu-banner d-xs-none">
+                    <div class="tiva-verticalmenu block">
+                        <div class="box-content">
+                            <div class="verticalmenu" role="navigation">
+                                <ul class="menu level1">
+                                    {% for kt in kategori %}
+                                    <li class="item">
+                                        <a href="#" class="hasicon" title="CUSHION">
+                                            <img src="{% static "img/home/cushion.png" %}" alt="img">{{kt.nama}}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- slide show -->
+            <div class="section banner">
+                <div class="tiva-slideshow-wrapper">
+                    <div id="tiva-slideshow" class="nivoSlider">
+                        {% for slider in slide %}
+                        <a href="#">
+                            <img class="img-responsive" src="{{slider.gambar_slide.url}}" title="#caption1" alt="Slideshow image">
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- main -->
+        <div id="wrapper-site">
+            <div id="content-wrapper" class="full-width">
+                <div id="main">
+                    <section class="page-home">
+                        <!-- product living room -->
+                        {% for kt in kategori %}
+                        <div class="section living-room {{kt.slug}}">
+                            <div class="container">
+                                <div class="tiva-row-wrap row">
+                                    <div class="groupcategoriestab-vertical col-md-12 col-xs-12">
+                                        <div class="grouptab row">
+                                            <div class="categoriestab-right col-lg-3 align-items-start d-flex flex-column col-md-3 flex-3">
+                                                <div class="block-title-content">
+                                                    <h2 class="title-block">
+                                                        {{kt.nama}}
+                                                    </h2>
+                                                </div>
+                                                <!-- <div class="btn dropdown-toggle toggle-cate-child-vertical hidden-md-up mr-auto">Select category</div> -->
+                                                <div class="cate-child-vertical">
+                                                    <ul class="d-flex align-items-start flex-column">
+                                                        {% for pro in kt.get_produk %}
+                                                        <li>
+                                                            <a href="#">{{pro.nama_produk}}</a>
+                                                        </li>
+                                                        {% endfor %}
+                                                        <li>
+                                                            <a href="#">Lihat Semuanya</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="categoriestab-left product-tab col-md-9 flex-9">
+                                                <div class="title-tab-content d-flex justify-content-start">
+                                                    <ul class="nav nav-tabs">
+                                                        <li>
+                                                            <a href="#new" data-toggle="tab" class="active">Daftar Produk</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tab-content">
+                                                    <div id="new" class="tab-pane fade in active show">
+                                                        <div class="category-product-index owl-carousel owl-theme owl-loaded owl-drag">
+                                                            {% for pro in kt.get_produk %}
+                                                            <div class="item text-center">
+                                                                <div class="product-miniature first-item js-product-miniature item-one">
+                                                                    <div class="thumbnail-container">
+                                                                        <a href="product-detail.html">
+                                                                            <img class="img-fluid image-cover" src="{{pro.gambar.url}}" alt="img">
+                                                                            <img class="img-fluid image-secondary" src="{{pro.gambar.url}}" alt="img">
+                                                                        </a>
+                                                                        {% if pro.diskon %}
+                                                                        <div class="product-flags discount">{{pro.diskon}}%</div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="product-description">
+                                                                        <div class="product-groups">
+                                                                            <div class="product-title">
+                                                                                <a href="{% url "produk" kt.slug pro.slug %}">{{pro.nama_produk}}</a>
+                                                                            </div>
+                                                                            <div class="rating">
+                                                                                <div class="star-content">
+                                                                                    {% if pro.keterangan_barang == 'Baru' %}
+                                                                                    <span class="badge badge-primary">{{pro.keterangan_barang}}</span>
+                                                                                    {% else %}
+                                                                                    <span class="badge badge-secondary">{{pro.keterangan_barang}}</span>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="product-group-price">
+                                                                                <div class="product-price-and-shipping">
+                                                                                    {% if pro.diskon == 0 %}
+                                                                                    <span class="price">Rp. {{pro.harga|intcomma}}</span>
+                                                                                    {% else %}
+                                                                                    <span class="price">Rp. {{pro.setelah_diskon|intcomma}}</span>
+                                                                                    <del class="regular-price">Rp. {{pro.harga|intcomma}}</del>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product-buttons d-flex justify-content-center">
+                                                                            <form action="#" method="post" class="formAddToCart">
+                                                                                <a class="add-to-cart" href="{% url "produk" kt.slug pro.slug %}" data-button-action="add-to-cart">
+                                                                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                                                </a>
+                                                                            </form>
+                                                                            <a class="addToWishlist" href="https://wa.me/{{pro.no_whatsup}}" data-rel="1" onclick="">
+                                                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                                            </a>
+                                                                            <a href="#" class="quick-view hidden-sm-down" data-link-action="quickview" data-toggle="modal" data-target="#detail{{pro.id}}">
+                                                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% empty %}
+                                                            <div class="alert alert-danger mr-4"> Produk Kosong </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- banner -->
+                        <div class="container">
+                            <div class="section spacing-10 group-image-special col-lg-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="effect">
+                                            <a href="#">
+                                                {% if kt.banner_satu %}
+                                                <img class="img-fluid" src="{{kt.banner_satu.url}}" alt="banner-1" title="banner-1">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="effect">
+                                            <a href="#">
+                                                {% if kt.banner_dua %}
+                                                <img class="img-fluid" src="{{kt.banner_dua.url}}" alt="banner-2" title="banner-2">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="alert alert-danger mr-4"> Kategori Kosong </div>
+                        {% endfor %}                  
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for x in produk %}
+    <!-- Modal -->
+    <div class="modal fade" id="detail{{x.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{x.nama_produk}} ({{x.kategori.nama}})</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="main-content">
+                    <div id="wrapper-site">
+                        <div id="content-wrapper">
+                            <div id="main">
+                                <div class="page-home">
+                                    <div class="container">
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-lg-12 col-md-12">
+                                                    <div class="main-product-detail">
+                                                        <div class="product-single row">
+                                                            <div class="product-detail col-xs-12 col-md-5 col-sm-5">
+                                                                <div class="page-content" id="content">
+                                                                    <div class="images-container">
+                                                                        <div class="js-qv-mask mask tab-content border">
+                                                                            <div id="item1" class="tab-pane fade active in show">
+                                                                                <img src="{{x.gambar.url}}" alt="img" style="width: 200px">
+                                                                            </div>
+                                                                        </div>
+                                                                        <ul class="product-tab nav nav-tabs d-flex">
+                                                                            {% if x.gambar_satu %}
+                                                                            <li class="active col">
+                                                                                <a href="#item1" data-toggle="tab" aria-expanded="true" class="active show">
+                                                                                    <img src="{{x.gambar_satu.url}}" alt="img" style="width: 100px">
+                                                                                </a>
+                                                                            </li>
+                                                                            {% endif %}
+                                                                            {% if x.gambar_dua %}
+                                                                            <li class="col">
+                                                                                <a href="#item2" data-toggle="tab">
+                                                                                    <img src="{{x.gambar_dua.url}}" alt="img" style="width: 100px">
+                                                                                </a>
+                                                                            </li>
+                                                                            {% endif %}
+                                                                            {% if x.gambar_tiga %}
+                                                                            <li class="col">
+                                                                                <a href="#item3" data-toggle="tab">
+                                                                                    <img src="{{x.gambar_tiga.url}}" alt="img" style="width: 100px">
+                                                                                </a>
+                                                                            </li>
+                                                                            {% endif %}
+                                                                            {% if x.gambar_empat %}
+                                                                            <li class="col">
+                                                                                <a href="#item4" data-toggle="tab">
+                                                                                    <img src="{{x.gambar_empat.url}}" alt="img" style="width: 100px">
+                                                                                </a>
+                                                                            </li>
+                                                                            {% endif %}
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-info col-xs-12 col-md-7 col-sm-7">
+                                                                <div class="detail-description">
+                                                                    <div class="price-del">
+                                                                        {% if x.diskon == 0 %}
+                                                                        <span class="price">Rp. {{x.harga|intcomma}}</span>
+                                                                        {% else %}
+                                                                        <span class="price">Rp. {{x.setelah_diskon|intcomma}}</span>
+                                                                        <del class="regular-price">Rp. {{x.harga|intcomma}}</del>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <p class="description">{{x.keterangan|safe}}</p>
+                                                                    <hr>
+                                                                    <div class="has-border cart-area">
+                                                                        <div class="product-quantity">
+                                                                            <div class="qty">
+                                                                                <div class="input-group">
+                                                                                    <div class="quantity">
+                                                                                        <span class="control-label">Jumlah : </span>
+                                                                                        <input type="text" name="qty" id="quantity_wanted" value="1" class="input-group form-control">
+                
+                                                                                        <span class="input-group-btn-vertical">
+                                                                                            <button class="btn btn-touchspin js-touchspin bootstrap-touchspin-up" type="button">
+                                                                                                +
+                                                                                            </button>
+                                                                                            <button class="btn btn-touchspin js-touchspin bootstrap-touchspin-down" type="button">
+                                                                                                -
+                                                                                            </button>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="clearfix"></div>
+                                                                        <p class="product-minimal-quantity">
+                                                                        </p>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="d-flex2 has-border">
+                                                                        <div class="btn-group">
+                                                                            <a href="https://wa.me/{{x.no_whatsup}}">
+                                                                                <i class="fa fa-whatsapp"></i>
+                                                                                <span>WhatsApp</span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="rating-comment has-border d-flex">
+                                                                        <div class="review-description d-flex">
+                                                                            <span>Diskon :</span>
+                                                                            <div class="rating">
+                                                                                <div class="star-content">
+                                                                                    <span class="text-info">&ensp;{{x.diskon}}%</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="content">
+                                                                        <p>Status : Produk {{x.keterangan_barang}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="button" class="btn btn-primary"><i class="fa fa-shopping-cart mr-2"></i>Tambah ke Keranjang</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock content %}
+
+    
